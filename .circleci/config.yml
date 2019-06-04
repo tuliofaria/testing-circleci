@@ -1,25 +1,54 @@
-version: 2 # use CircleCI 2.0
-jobs: # a collection of steps
-  build: # runs not using Workflows must have a `build` job as entry point
-    working_directory: ~/mern-starter # directory where steps will run
-    docker: # run the steps with Docker
-      - image: circleci/node:latest # ...with this image as the primary container; this is where all `steps` will run
-    steps: # a collection of executable commands
-      - checkout # special step to check out source code to working directory
+version: 2
+jobs:
+  build:
+    docker:
+      - image: wecs/circle-ci-gcloud-node:0.1.0
+    working_directory: ~/workspace
+    environment:
+      DEPLOYMENT_NAME: ci-cd
+      PROJECT_ID: ci-cd-217118
+      CLUSTER_NAME: ci-cd
+      CLUSTER_NAME_STAG: ci-cd-stag
+      CLOUDSDK_COMPUTE_ZONE: us-west1-a 
+      CONTAINER_NAME: ci-cd
+      IMAGE: ci-cd
+      REG_ID: ci-cd
+      REG_ID_PROD: ci-cd-prod
+      IMG_TAG: 0.1.0
+      PROJECT_NAME: ci-cd
+      DEPLOYMENT_ENVIRONMENT: staging
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
       - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
-      - restore_cache: # special step to restore the dependency cache
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: dependency-cache-{{ checksum "package.json" }}
+          name: Install node packages
+          command: |
+            npm install
+      
       - run:
-          name: install-npm-wee
-          command: npm install
-      - save_cache: # special step to save the dependency cache
-          key: dependency-cache-{{ checksum "package.json" }}
+          name: Start app
+          command: |
+            npm start &
+      - run:
+          name: Run tests
+          command: |
+            npm test
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - save_cache:
           paths:
-            - ./node_modules
-      - run: # run tests
-          name: test
-          command: npm test
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      
+      - run:
+          name: Build and Deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ./deployment.sh
+            fi  
