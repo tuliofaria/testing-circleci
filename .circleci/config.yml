@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: wecs/circle-ci-gcloud-node:0.1.0
+      - image: wecs/circle-ci-gcloud-node
     working_directory: ~/workspace
     environment:
       DEPLOYMENT_NAME: ci-cd
