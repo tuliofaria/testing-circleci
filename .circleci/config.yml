@@ -50,5 +50,5 @@ jobs:
           name: Build and Deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              ./deployment.sh
+              sh ./deployment.sh
             fi  
