@@ -32,12 +32,12 @@ jobs:
       - run:
           name: Install node packages
           command: |
-            docker build -t appweb-test -f Dockerfile.test .
+            docker build -t appweb .
 
       - run:
           name: Run tests
           command: |
-            docker run --rm appweb-test
+            docker run --rm --entrypoint '/bin/sh' appweb:latest -c 'npm test'
 
       - run:
           name: Build and Deploy
