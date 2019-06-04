@@ -4,19 +4,6 @@ jobs:
     docker:
       - image: google/cloud-sdk:latest
     working_directory: ~/workspace
-    environment:
-      DEPLOYMENT_NAME: ci-cd
-      PROJECT_ID: ci-cd-217118
-      CLUSTER_NAME: ci-cd
-      CLUSTER_NAME_STAG: ci-cd-stag
-      CLOUDSDK_COMPUTE_ZONE: us-west1-a 
-      CONTAINER_NAME: ci-cd
-      IMAGE: ci-cd
-      REG_ID: ci-cd
-      REG_ID_PROD: ci-cd-prod
-      IMG_TAG: 0.1.0
-      PROJECT_NAME: ci-cd
-      DEPLOYMENT_ENVIRONMENT: staging
     steps:
       - checkout
       - setup_remote_docker:   # (2)
