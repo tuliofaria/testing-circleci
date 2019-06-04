@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: launcher.gcr.io/google/nodejs
+      - image: google/cloud-sdk:latest
     working_directory: ~/workspace
     environment:
       DEPLOYMENT_NAME: ci-cd
@@ -19,33 +19,16 @@ jobs:
       DEPLOYMENT_ENVIRONMENT: staging
     steps:
       - checkout
-      - setup_remote_docker
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
       - run:
           name: Install node packages
           command: |
-            npm install
-      
-      - run:
-          name: Start app
-          command: |
-            npm start &
+            docker build -t appweb-test -f Dockerfile.test .
+
       - run:
           name: Run tests
           command: |
-            npm test
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      
+            docker run --rm appweb-test
+
       - run:
           name: Build and Deploy
           command: |
