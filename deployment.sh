@@ -1,5 +1,6 @@
 # !/bin/bash
 set -e
+CLOUDSDK_CORE_DISABLE_PROMPTS=1
 echo "Deploying to ${DEPLOYMENT_ENVIRONMENT}"
 curl https://sdk.cloud.google.com | bash
 echo $ACCOUNT_KEY_STAGING > service_key.txt
