@@ -1,4 +1,4 @@
-const VERSION = 1
+const VERSION = 2
 const port = process.env.PORT || 3000
 
 const express = require('express')
@@ -6,7 +6,7 @@ const app = express()
 
 app.get('/', (req, res) => {
     res.send({
-        out: 'running version' + VERSION
+        out: 'running version ' + VERSION
     })
 })
 
