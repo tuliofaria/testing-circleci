@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "jest": "^24.8.0"
+    "jest": "^24.8.0",
+    "knex": "^0.17.3",
+    "mysql2": "^1.6.5"
   }
 }
