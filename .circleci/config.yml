@@ -31,6 +31,6 @@ jobs:
           command: |
             sh ./setup.sh
             if [ "${CIRCLE_BRANCH}" == "staging" ]; then
-              sh ./setupDeployment.sh
+              sh ./setupSetup.sh
               sh ./stagingDeployment.sh
             fi  
