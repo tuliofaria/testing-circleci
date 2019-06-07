@@ -21,8 +21,9 @@ gcloud config set project e2e-staging-242915
 gcloud --quiet config set container/cluster $PROJECT_NAME-$KUBERNETES_CLUSTER_NAME_SUFFIX
 gcloud config set compute/zone $ZONE
 gcloud --quiet container clusters get-credentials $PROJECT_NAME-$KUBERNETES_CLUSTER_NAME_SUFFIX
-docker build -t gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_BASE_NAME}:$CIRCLE_SHA1 .
+docker build -t gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_BASE_NAME}:$CIRCLE_SHA1 -t gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_BASE_NAME}:latest .
 gcloud docker -- push gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_BASE_NAME}:$CIRCLE_SHA1
+gcloud docker -- push gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_BASE_NAME}:latest
 echo "deployment/${DOCKER_IMAGE_BASE_NAME} ${DOCKER_IMAGE_BASE_NAME}=gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_BASE_NAME}:${CIRCLE_SHA1}"
 kubectl set image deployment/${DOCKER_IMAGE_BASE_NAME} ${DOCKER_IMAGE_BASE_NAME}=gcr.io/${PROJECT_ID}/${DOCKER_IMAGE_BASE_NAME}:$CIRCLE_SHA1
 echo " Successfully deployed"
