@@ -29,6 +29,6 @@ jobs:
       - run:
           name: Build and Deploy
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              sh ./deployment.sh
+            if [ "${CIRCLE_BRANCH}" == "staging" ]; then
+              sh ./stagingDeployment.sh
             fi  
