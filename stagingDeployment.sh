@@ -3,7 +3,8 @@ set -e
 export ZONE=us-central1-a
 export DOCKER_IMAGE_BASE_NAME=appweb
 export KUBERNETES_CLUSTER_NAME_SUFFIX=kb-cluster
-if [ "${CIRCLE_BRANCH}" == "staging" ] then
+if [ "${CIRCLE_BRANCH}" == "staging" ]; 
+then
   export PROJECT_ID=e2e-staging-242915	
   export PROJECT_NAME=e2e-staging
   export ACCOUNT_ID=$STAGING_ACCOUNT_ID
