@@ -5,6 +5,7 @@ echo ${STAGING_ACCOUNT_KEY} > service_key.txt
 base64 -i service_key.txt -d > ${HOME}/gcloud-service-key.json
 gcloud auth activate-service-account ${STAGING_ACCOUNT_ID} --key-file ${HOME}/gcloud-service-key.json
 gcloud config set project $STAGING_PROJECT_ID
+gcloud services enable cloudresourcemanager.googleapis.com
 gcloud --quiet config set container/cluster ${STAGING_PROJECT_NAME}-${KUBERNETES_CLUSTER_NAME_SUFFIX}
 gcloud config set compute/zone $ZONE
 gcloud --quiet container clusters get-credentials ${STAGING_PROJECT_NAME}-${KUBERNETES_CLUSTER_NAME_SUFFIX}
