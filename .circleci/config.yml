@@ -27,6 +27,11 @@ jobs:
             docker run --rm --entrypoint '/bin/sh' appweb:latest -c 'npm test'
 
       - run:
+          name: Setup environment
+          command: |
+              sh ./setup.sh
+
+      - run:
           name: Build and Deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "staging" ]; then
