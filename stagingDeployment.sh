@@ -1,5 +1,15 @@
 # !/bin/bash
 set -e
+export ZONE=us-central1-a
+export DOCKER_IMAGE_BASE_NAME=appweb
+export KUBERNETES_CLUSTER_NAME_SUFFIX=kb-cluster
+if [ "${CIRCLE_BRANCH}" == "staging" ]; then
+  export PROJECT_ID=e2e-staging-242915	
+  export PROJECT_NAME=e2e-staging
+  export ACCOUNT_ID=${STAGING_ACCOUNT_ID}
+  export ACCOUNT_KEY=${STAGING_ACCOUNT_KEY}
+fi 
+
 echo "Deploying ${DOCKER_IMAGE_BASE_NAME} to ${CIRCLE_BRANCH}"
 echo $STAGING_ACCOUNT_KEY > service_key.txt
 base64 -i service_key.txt -d > ${HOME}/gcloud-service-key.json
