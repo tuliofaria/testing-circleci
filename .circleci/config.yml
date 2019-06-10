@@ -1,11 +1,6 @@
 version: 2
 jobs:
   build:
-    filters:
-      branches:
-        only:
-          - master
-          - staging
     docker:
       - image: google/cloud-sdk:latest
     working_directory: ~/workspace
@@ -25,12 +20,34 @@ jobs:
           name: Install node packages
           command: |
             docker build -t appweb .
+  test:
+    docker:
+      - image: google/gcloud-sdk:latest
+    steps:
       - run:
           name: Run tests
           command: |
             docker run --rm --entrypoint '/bin/sh' appweb:latest -c 'npm test'
-            
+  deploy:
+    docker:
+      - image: google/gcloud-sdk:latest
+    steps:
       - run:
           name: Build and Deploy
           command: |
             sh ./deployment.sh
+workflows:
+  version: 2
+  unscheduled:
+    jobs:
+      - build
+      - test
+      - deploy:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - staging
