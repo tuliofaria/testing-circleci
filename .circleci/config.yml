@@ -1,6 +1,11 @@
 version: 2
 jobs:
   build:
+    filters:
+    branches:
+      only:
+        - master
+        - staging
     docker:
       - image: google/cloud-sdk:latest
     working_directory: ~/workspace
@@ -38,9 +43,3 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-          filters:
-            branches:
-              only:
-                - master
-                - staging
-                
