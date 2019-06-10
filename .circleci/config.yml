@@ -2,10 +2,10 @@ version: 2
 jobs:
   build:
     filters:
-    branches:
-      only:
-        - master
-        - staging
+      branches:
+        only:
+          - master
+          - staging
     docker:
       - image: google/cloud-sdk:latest
     working_directory: ~/workspace
