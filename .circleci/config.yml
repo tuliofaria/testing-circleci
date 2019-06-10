@@ -22,7 +22,7 @@ jobs:
             docker build -t appweb .
   test:
     docker:
-      - image: google/gcloud-sdk:latest
+      - image: google/cloud-sdk:latest
     steps:
       - run:
           name: Run tests
@@ -30,7 +30,7 @@ jobs:
             docker run --rm --entrypoint '/bin/sh' appweb:latest -c 'npm test'
   deploy:
     docker:
-      - image: google/gcloud-sdk:latest
+      - image: google/cloud-sdk:latest
     steps:
       - run:
           name: Build and Deploy
