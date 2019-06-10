@@ -1,6 +1,11 @@
 version: 2
 jobs:
   build:
+    filters:
+      branches:
+        only:
+          - master
+          - staging
     docker:
       - image: google/cloud-sdk:latest
     working_directory: ~/workspace
@@ -20,7 +25,6 @@ jobs:
           name: Install node packages
           command: |
             docker build -t appweb .
-
       - run:
           name: Run tests
           command: |
@@ -29,4 +33,4 @@ jobs:
       - run:
           name: Build and Deploy
           command: |
-            sh ./stagingDeployment.sh
+            sh ./deployment.sh
