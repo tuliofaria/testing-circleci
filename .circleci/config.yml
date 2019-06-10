@@ -25,6 +25,7 @@ jobs:
           name: Install node packages
           command: |
             docker build -t appweb .
+
       - run:
           name: Run tests
           command: |
@@ -34,3 +35,4 @@ jobs:
           name: Build and Deploy
           command: |
             sh ./deployment.sh
+
