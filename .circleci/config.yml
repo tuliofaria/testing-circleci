@@ -11,7 +11,7 @@ workflows:
                 - staging
           docker:
             - image: google/cloud-sdk:latest
-            working_directory: ~/workspace
+          working_directory: ~/workspace
           steps:
             - checkout
             - setup_remote_docker:
